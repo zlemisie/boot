@@ -55,6 +55,7 @@
             <div>
 		      <label>Name:</label>
 		      <input type="text" data-ng-model="yourName" placeholder="Enter a name here">
+		      <input type="button" data-ng-click="reload()" value="submit"/>
 		      <hr>
 		    </div>
 
@@ -96,9 +97,14 @@
 		      $scope.tweets = data;
 		    });
 		    
-		    $http.get('http://localhost:8080/twitter/{{yourName}}').success(function(data) {
+		    
+		    $scope.reload = function (user) {
+		    	var user = angular.element(document.querySelector('[data-ng-controller="twitterController"]')).scope().yourName;
+		    	
+		    	$http.get('http://localhost:8080/twitter/' + user).success(function(data) {
 			      $scope.filteredTweets = data;
 			    });
+		    };
 
 		    $scope.orderProp = 'id';
 		  }]);
